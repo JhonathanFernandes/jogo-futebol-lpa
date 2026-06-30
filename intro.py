@@ -27,16 +27,26 @@ def game_intro(gameDisplay,display_width,display_height,sound) :
 
         gameDisplay.fill(white)
         largeText = pygame.font.Font('freesansbold.ttf', 115)
-        TextSurf, TextRect = displayText.display_text("Football Game", largeText)
+        TextSurf, TextRect = displayText.display_text("Jogo de Futebol", largeText)
         TextRect.center = ((display_width / 2), (display_height / 2))
         gameDisplay.blit(TextSurf, TextRect)
 
-        introAction = buttons.button(gameDisplay,"Go",400,450,100,50,green,bright_green,'close_intro')
-        buttons.button(gameDisplay,"Cancel",800,450,100,50,red,bright_red,'close_game')
+        # show controls below the title
+        smallText = pygame.font.Font('freesansbold.ttf', 20)
+        controls_lines = [
+            "Controles:",
+            "← → ↑ ↓ : mover",
+            "P : pausar"
+        ]
+        for i, line in enumerate(controls_lines):
+            tsurf, trect = displayText.display_text(line, smallText)
+            trect.center = ((display_width / 2), (display_height / 2) + 80 + i*24)
+            gameDisplay.blit(tsurf, trect)
 
-        if introAction is 'closeIntroClicked' :
-            #pygame.mixer.Sound.play(sound)
-            #pygame.mixer.music.stop()
+        introAction = buttons.button(gameDisplay,"Jogar",400,450,100,50,green,bright_green,'close_intro')
+        buttons.button(gameDisplay,"Cancelar",800,450,100,50,red,bright_red,'close_game')
+
+        if introAction == 'closeIntroClicked':
             intro = False
 
         pygame.display.update()

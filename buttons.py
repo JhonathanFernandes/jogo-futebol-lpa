@@ -12,14 +12,16 @@ def button(gameDisplay,msg,x,y,w,h,ic,ac,action=None):
     if x+w > mouse[0] > x and y+h > mouse[1] > y:
         pygame.draw.rect(gameDisplay, ac,(x,y,w,h))
 
-        if click[0] == 1 and action != None:
-            if action is 'close_intro':
+        if click[0] == 1 and action is not None:
+            if action == 'close_intro':
                 return 'closeIntroClicked'
-            elif action is 'close_game' :
-                return 'closeGameClicked'
+            elif action == 'close_game':
                 close()
-            elif action is'continue_game' :
+                return 'closeGameClicked'
+            elif action == 'continue_game':
                 return 'continueGame'
+            elif action == 'restart_game':
+                return 'restartGame'
     else:
         pygame.draw.rect(gameDisplay, ic,(x,y,w,h))
 

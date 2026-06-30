@@ -23,7 +23,7 @@ boyFirstRightKickImg = pygame.image.load('images/boyFirstKickRight.png')
 display_width = 1200
 display_height = 600
 gameDisplay = pygame.display.set_mode((display_width, display_height))
-pygame.display.set_caption('Football')
+pygame.display.set_caption('Futebol')
 pygame.display.set_icon(ballImg)
 
 
@@ -61,6 +61,7 @@ boy_y_change = 0
 
 score_left = 0
 score_right = 0
+SCORE_LIMIT = 3
 
 
 def background(x, y):
@@ -191,23 +192,53 @@ while not crashed:
 
     if ball_x > 0 and ball_x < goal_width-ballrect.right and ball_y < display_height and ball_y > display_height-goal_height :
         score_left += 1
-        Paused.paused(gameDisplay,display_width,display_height,'Player 1 scores',True)
+        Paused.paused(gameDisplay,display_width,display_height,'Jogador 1 marcou',True)
         ball_x = 600
         ball_y = 300-(ballrect.right/2)
         gravityAcceleration = 0.3
         horizontalAcceleration = 0
         verticalSpeed = [0, 0]
         horizontalSpeed = [0, 0]
+        # verificar condição de vitória
+        if score_left >= SCORE_LIMIT:
+            action = Paused.end_screen(gameDisplay, display_width, display_height, 'Jogador 1 venceu!')
+            if action == 'restart':
+                score_left = 0
+                score_right = 0
+                ball_x = 600
+                ball_y = 300
+                boy_x = display_width/2
+                boy_y = display_height - boy_height
+                verticalSpeed = [0, 0]
+                horizontalSpeed = [0, 0]
+            else:
+                pygame.quit()
+                quit()
 
     if ball_x > (display_width - goal_width) and ball_x < display_width and ball_y < display_height and ball_y > display_height-goal_height :
         score_right += 1
-        Paused.paused(gameDisplay, display_width, display_height, 'Player 2 scores', True)
+        Paused.paused(gameDisplay, display_width, display_height, 'Jogador 2 marcou', True)
         ball_x = 600
         ball_y = 300 - (ballrect.right / 2)
         gravityAcceleration = 0.3
         horizontalAcceleration = 0
         verticalSpeed = [0, 0]
         horizontalSpeed = [0, 0]
+        # verificar condição de vitória
+        if score_right >= SCORE_LIMIT:
+            action = Paused.end_screen(gameDisplay, display_width, display_height, 'Jogador 2 venceu!')
+            if action == 'restart':
+                score_left = 0
+                score_right = 0
+                ball_x = 600
+                ball_y = 300
+                boy_x = display_width/2
+                boy_y = display_height - boy_height
+                verticalSpeed = [0, 0]
+                horizontalSpeed = [0, 0]
+            else:
+                pygame.quit()
+                quit()
 
 
     largeText = pygame.font.Font('freesansbold.ttf', 30)
